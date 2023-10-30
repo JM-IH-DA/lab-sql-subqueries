@@ -47,6 +47,8 @@ WHERE fa.film_id = (
 
 -- 4. Sales have been lagging among young families, and you want to target family movies for a promotion. Identify all movies categorized as family films:
 
+-- 4.1 Solution JOIN:
+
 SELECT f.title
 FROM film f
 JOIN film_category fc
@@ -54,6 +56,18 @@ ON f.film_id = fc.film_id
 JOIN category c
 ON fc.category_id = c.category_id
 WHERE c.name = 'Family';
+
+-- 4.2 Solution subquery:
+
+SELECT f.title
+FROM film f
+WHERE f.film_id IN (
+  SELECT fc.film_id
+  FROM film_category fc
+  JOIN category c 
+  USING (category_id)
+  WHERE c.name = 'Family'
+);
 
 -- 5. Retrieve the name and email of customers from Canada using both subqueries and joins. To use joins, you will need to identify the relevant tables and their primary and foreign keys:
 
